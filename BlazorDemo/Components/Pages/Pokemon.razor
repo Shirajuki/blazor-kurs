@@ -19,10 +19,6 @@
             </div>
         }
     }
-    else if (error)
-    {
-        <p><em>Couldn't fetch pokemons...</em></p>
-    }
     else
     {
         <p><em>Loading...</em></p>
@@ -42,7 +38,6 @@
 @code {
     private PokemonResponseData? pokemons;
     private int offset;
-    private bool error;
 
     protected override async Task OnInitializedAsync()
     {

@@ -15,10 +15,6 @@
         <img src="@pokemon.Sprites.Front" />
         <img src="@pokemon.Sprites.Back" />
     }
-    else if (error)
-    {
-        <p><em>Couldn't fetch pokemon details...</em></p>
-    }
     else
     {
         <p><em>Loading...</em></p>
@@ -29,7 +25,6 @@
     [Parameter]
     public string? pokemonId { get; set; }
     private PokemonData? pokemon;
-    private bool error;
 
     protected override async Task OnInitializedAsync()
     {
