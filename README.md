@@ -17,3 +17,4 @@ Create new Blazor project from scratch yourself and use this code as a base to c
 
 # readings
 - https://dotnet.microsoft.com/en-us/learn/aspnet/blazor-tutorial/intro
+- https://learn.microsoft.com/en-us/aspnet/core/blazor/?view=aspnetcore-8.0
