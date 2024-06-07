@@ -1,0 +1,39 @@
+﻿@page "/pokemon/{pokemonId}"
+@using System.Text.Json
+@using System.Text.Json.Serialization
+@inject IPokemonService PokemonService
+@attribute [StreamRendering]
+
+<PageTitle>Pokemon @(pokemon?.Name ?? "...")</PageTitle>
+
+<h1>Pokemon</h1>
+
+<div>
+    @if (pokemon != null)
+    {
+        <p>@pokemon.Name</p>
+        <img src="@pokemon.Sprites.Front" />
+        <img src="@pokemon.Sprites.Back" />
+    }
+    else if (error)
+    {
+        <p><em>Couldn't fetch pokemon details...</em></p>
+    }
+    else
+    {
+        <p><em>Loading...</em></p>
+    }
+</div>
+
+@code {
+    [Parameter]
+    public string? pokemonId { get; set; }
+    private PokemonData? pokemon;
+    private bool error;
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (pokemonId != null)
+            pokemon = await PokemonService.Get(int.Parse(pokemonId));
+    }
+}

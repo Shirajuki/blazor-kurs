@@ -1,0 +1,55 @@
+﻿@page "/pokemon"
+@using System.Text.Json
+@using System.Text.Json.Serialization
+@inject IPokemonService PokemonService
+@attribute [StreamRendering]
+@rendermode InteractiveServer
+
+<PageTitle>Pokemon</PageTitle>
+
+<h1>Pokemon</h1>
+
+<div>
+    @if (pokemons != null)
+    {
+        @foreach (var pokemon in pokemons.Results)
+        {
+            <div>
+                <a href='@($"/pokemon/{pokemon.Url.Split('/').Reverse().ElementAt(1)}")'>@pokemon.Name</a>
+            </div>
+        }
+    }
+    else if (error)
+    {
+        <p><em>Couldn't fetch pokemons...</em></p>
+    }
+    else
+    {
+        <p><em>Loading...</em></p>
+    }
+</div>
+
+@if (pokemons != null)
+{
+
+    <button @onclick="@(async (_) => { offset-=20; await fetchPokemons(); })"
+    disabled="@(pokemons.Previous == null)">Prev</button>
+    <button @onclick="@(async (_) => { offset+=20; await fetchPokemons(); })"
+        disabled="@(pokemons.Next == null)">Next</button>
+}
+
+
+@code {
+    private PokemonResponseData? pokemons;
+    private int offset;
+    private bool error;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await fetchPokemons();
+    }
+    protected async Task fetchPokemons()
+    {
+        pokemons = await PokemonService.GetAll(offset);
+    }
+}
